@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Path, Post, Query, Route, SuccessResponse, Tags, Response } from 'tsoa'
-import { User } from './user'
+import { User } from '../models/user'
 
-import { UsersService, UserCreationParams } from './usersService'
+import { UsersService, UserCreationParams } from '../services/usersService'
 
 interface ValidateErrorJSON {
   message: 'Validation failed'
@@ -9,9 +9,9 @@ interface ValidateErrorJSON {
 }
 
 @Route('users')
-@Tags('/myTag')
+@Tags('/users')
 export class UsersController extends Controller {
-  @Response<ValidateErrorJSON>(422, 'Validation Failed')
+  @Response<ValidateErrorJSON>(400, 'Client Failed')
   @Get('{userId}')
   public async getUser(@Path() userId: number, @Query() name?: string): Promise<User> {
     return new UsersService().get(userId, name)
